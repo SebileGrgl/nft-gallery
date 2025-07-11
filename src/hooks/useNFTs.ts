@@ -5,6 +5,7 @@ import { NFT, NFTFilterOptions, UseNFTsReturn } from "@/types";
 export const useNFTs = (initialLimit: number = 20): UseNFTsReturn => {
   const [nfts, setNfts] = useState<NFT[]>([]);
   const [loading, setLoading] = useState(false);
+  const [isLoadingMore, setIsLoadingMore] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [hasMore, setHasMore] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
@@ -13,7 +14,12 @@ export const useNFTs = (initialLimit: number = 20): UseNFTsReturn => {
 
   const fetchNFTs = useCallback(
     async (page: number = 1, append: boolean = false) => {
-      setLoading(true);
+      if (append) {
+        setIsLoadingMore(true);
+      } else {
+        setLoading(true);
+      }
+
       setError(null);
 
       try {
@@ -32,18 +38,21 @@ export const useNFTs = (initialLimit: number = 20): UseNFTsReturn => {
         setError(err instanceof Error ? err.message : "Failed to fetch NFTs");
       } finally {
         setLoading(false);
+        setIsLoadingMore(false);
       }
     },
     [initialLimit]
   );
 
   const loadMore = useCallback(async () => {
-    if (!hasMore || loading) return;
+    if (!hasMore || loading || isLoadingMore) return;
+
     await fetchNFTs(currentPage + 1, true);
-  }, [hasMore, loading, currentPage, fetchNFTs]);
+  }, [hasMore, loading, isLoadingMore, currentPage, fetchNFTs]);
 
   const refetch = useCallback(async () => {
     setCurrentPage(1);
+    setHasMore(true);
     await fetchNFTs(1, false);
   }, [fetchNFTs]);
 
@@ -107,17 +116,26 @@ export const useNFTs = (initialLimit: number = 20): UseNFTsReturn => {
   );
 
   useEffect(() => {
+    if (Object.keys(filters).length > 0) {
+      setCurrentPage(1);
+      setHasMore(true);
+      fetchNFTs(1, false);
+    }
+  }, [filters, fetchNFTs]);
+
+  useEffect(() => {
     fetchNFTs();
-  }, [fetchNFTs]);
+  }, []);
 
   return {
     nfts: applyFilters(nfts),
     loading,
+    isLoadingMore,
     error,
     hasMore,
     currentPage,
     totalNFTs,
-    fetchNFTs: () => fetchNFTs(),
+    fetchNFTs: () => fetchNFTs(1, false),
     loadMore,
     refetch,
     setFilters,

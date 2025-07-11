@@ -10,7 +10,16 @@ import Footer from "@/components/Footer";
 import { useNFTs } from "@/hooks/useNFTs";
 
 const NFTGalleryPage: React.FC = () => {
-  const { nfts, loading, error, loadMore, setFilters, fetchNFTs } = useNFTs();
+  const {
+    nfts,
+    loading,
+    isLoadingMore,
+    error,
+    hasMore,
+    loadMore,
+    setFilters,
+    fetchNFTs,
+  } = useNFTs();
 
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedFilter, setSelectedFilter] = useState("all");
@@ -65,7 +74,6 @@ const NFTGalleryPage: React.FC = () => {
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
       <Header onSearchChange={handleSearch} />
       <HeroSection />
-
       <FilterControls
         selectedFilter={selectedFilter}
         handleFilterChange={handleFilterChange}
@@ -73,16 +81,17 @@ const NFTGalleryPage: React.FC = () => {
         sortBy={sortBy}
         filteredNfts={searchedNfts}
       />
-
       <NftGrid
         filteredNfts={searchedNfts}
         handleNftView={handleNftView}
         handleNftLike={handleNftLike}
         loading={loading}
+        isLoadingMore={isLoadingMore}
         error={error}
-        onRetry={fetchNFTs}
+        hasMore={hasMore}
+        loadMore={loadMore}
+        onRetry={async () => await fetchNFTs()}
       />
-
       <StatsSection />
       <Footer />
     </div>

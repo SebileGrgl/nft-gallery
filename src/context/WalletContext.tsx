@@ -8,6 +8,7 @@ import React, {
   useState,
   ReactNode,
 } from "react";
+import { toast } from "react-toastify";
 import { useAccount, useConnect, useDisconnect } from "wagmi";
 import { injected } from "wagmi/connectors";
 
@@ -38,8 +39,10 @@ export const WalletProvider: React.FC<WalletProviderProps> = ({ children }) => {
   const handleConnect = async () => {
     try {
       connect({ connector: injected() });
+      toast.success("Wallet connected successfully");
     } catch (error) {
       console.error("Wallet connection failed:", error);
+      toast.error("Wallet connection failed. Please try again.");
     }
   };
 

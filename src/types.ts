@@ -105,13 +105,30 @@ export interface FilterControlsProps {
   filteredNfts: NFT[];
 }
 
+export interface UseNFTsReturn {
+  nfts: NFT[];
+  loading: boolean;
+  isLoadingMore?: boolean; // Added for infinite scroll
+  error: string | null;
+  hasMore: boolean;
+  currentPage: number;
+  totalNFTs: number;
+  fetchNFTs: () => Promise<void>;
+  loadMore: () => Promise<void>;
+  refetch: () => Promise<void>;
+  setFilters: (filters: NFTFilterOptions) => void;
+}
+
 export interface NftGridProps {
   filteredNfts: NFT[];
-  handleNftView: (param: NFT) => void;
-  handleNftLike: (param: NFT) => void;
-  error: string | null;
+  handleNftView: (nft: NFT) => void;
+  handleNftLike: (nft: NFT) => void;
   loading: boolean;
-  onRetry: () => void;
+  isLoadingMore?: boolean;
+  error: string | null;
+  hasMore?: boolean;
+  loadMore?: () => Promise<void>;
+  onRetry?: () => Promise<void>;
 }
 
 export interface ErrorCardProps {
