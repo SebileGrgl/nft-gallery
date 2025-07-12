@@ -12,7 +12,7 @@ const ConnectWalletBtn: React.FC = () => {
       onClick={isConnected ? disconnect : openConnectModal}
       variant={isConnected ? "outline" : "primary"}
       size="sm"
-      className="font-mono"
+      className="font-mono cursor-pointer"
     >
       {isConnected ? shortAddress || "Disconnect" : "Connect Wallet"}
     </Button>

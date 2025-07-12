@@ -21,3 +21,25 @@
     @apply z-[9999];
   }
 }
+
+@keyframes gentle-bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+.animate-gentle-bounce {
+  animation: gentle-bounce 2s infinite;
+}
+
+.scroll-to-top-bounce {
+  animation: gentle-bounce 3s infinite;
+}
+
+.animate-slide-in-bottom {
+  animation: slideInFromBottom 0.3s ease-in-out;
+}

@@ -8,7 +8,8 @@ import { WalletProvider } from "@/context/WalletContext";
 import "@rainbow-me/rainbowkit/styles.css";
 import "./globals.css";
 import "react-toastify/dist/ReactToastify.css";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
+import ScrollToTop from "@/components/ScrolltoTopBtn";
 
 const queryClient = new QueryClient();
 
@@ -27,6 +28,13 @@ export default function RootLayout({
           closeButton={false}
           newestOnTop={true}
           theme="dark"
+        />
+        <ScrollToTop
+          variant="primary"
+          size="lg"
+          showAfter={500}
+          position="bottom-left"
+          className="md:bottom-8 md:left-8"
         />
         <WagmiProvider config={wagmiConfig}>
           <QueryClientProvider client={queryClient}>

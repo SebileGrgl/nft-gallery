@@ -108,7 +108,7 @@ export interface FilterControlsProps {
 export interface UseNFTsReturn {
   nfts: NFT[];
   loading: boolean;
-  isLoadingMore?: boolean; // Added for infinite scroll
+  isLoadingMore?: boolean;
   error: string | null;
   hasMore: boolean;
   currentPage: number;
@@ -144,4 +144,20 @@ export interface NftCardProps {
   showPrice?: boolean;
   showRarity?: boolean;
   className?: string;
+}
+
+export interface ScrollToTopProps {
+  className?: string;
+  showAfter: number;
+  position: "bottom-right" | "bottom-left" | "bottom-center";
+  variant: "primary" | "secondary" | "outline" | "ghost";
+  size?: "sm" | "md" | "lg";
+}
+
+export interface LoadMoreProps {
+  filteredNfts: NFT[];
+  hasMore?: boolean;
+  loadMore?: () => Promise<void>;
+  isLoadingMore?: boolean;
+  loading: boolean;
 }

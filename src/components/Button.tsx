@@ -21,7 +21,7 @@ const Button: React.FC<ButtonProps> = ({
   const rippleCounter = React.useRef(0);
 
   const baseClasses =
-    "relative overflow-hidden font-semibold transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-slate-900 disabled:opacity-50 disabled:cursor-not-allowed";
+    "relative overflow-hidden font-semibold transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-slate-900 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer";
 
   const variants = {
     primary:
@@ -86,7 +86,7 @@ const Button: React.FC<ButtonProps> = ({
       {ripples.map((ripple) => (
         <span
           key={ripple.id}
-          className="absolute animate-ping"
+          className="absolute animate-ping "
           style={{
             left: ripple.x - 10,
             top: ripple.y - 10,
